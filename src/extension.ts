@@ -11,7 +11,7 @@ const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
 	['\u2192', '->'],        // right arrow to ASCII arrow
 ]);
 
-function stupefyText(text: string): string {
+export function stupefyText(text: string): string {
 	let result = text;
 	for (const [smart, ascii] of STUPEFY_REPLACEMENTS) {
 		result = result.replace(new RegExp(smart, 'g'), ascii);

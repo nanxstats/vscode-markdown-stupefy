@@ -61,7 +61,22 @@ node esbuild.js
 npm run watch
 ```
 
-### Testing the extension
+### Testing
+
+#### Running unit tests
+
+```bash
+# Compile test files
+npm run compile-tests
+
+# Run all tests
+npm test
+
+# For continuous testing during development
+npm run watch-tests
+```
+
+#### Manual testing
 
 1. Press F5 in VS Code to launch Extension Development Host
 2. Open any text file with smart typography
@@ -83,13 +98,20 @@ npm run watch
 ```
 /
 ├── src/
-│   └── extension.ts        # Main extension code
+│   ├── extension.ts           # Main extension code
+│   └── test/
+│       ├── extension.test.ts  # Unit and integration tests
+│       ├── runTest.ts         # Test runner entry point
+│       └── suite/
+│           └── index.ts       # Test suite configuration
 ├── dist/
-│   └── extension.js        # Bundled output
-├── package.json            # Extension manifest and dependencies
-├── tsconfig.json           # TypeScript configuration
-├── esbuild.js              # Build configuration
-└── eslint.config.mjs       # Linting configuration
+│   └── extension.js           # Bundled output
+├── out/                       # Compiled test files (generated)
+├── package.json               # Extension manifest and dependencies
+├── tsconfig.json              # TypeScript configuration
+├── esbuild.js                 # Build configuration
+├── eslint.config.mjs          # Linting configuration
+└── .vscode-test.mjs           # VS Code test configuration
 ```
 
 ## Key commands
