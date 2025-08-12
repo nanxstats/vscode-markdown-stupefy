@@ -46,9 +46,57 @@ suite('Extension Test Suite', () => {
 			strictEqual(stupefyText(input), expected);
 		});
 
+		test('should convert left-pointing double angle quotation mark to <<', () => {
+			const input = '\u00ABQuote\u00BB';
+			const expected = '<<Quote>>';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert right-pointing double angle quotation mark to >>', () => {
+			const input = 'Text \u00BB';
+			const expected = 'Text >>';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert left arrow to ASCII arrow', () => {
+			const input = 'Previous \u2190 Back';
+			const expected = 'Previous <- Back';
+			strictEqual(stupefyText(input), expected);
+		});
+
 		test('should convert right arrow to ASCII arrow', () => {
 			const input = 'Go \u2192 Next';
 			const expected = 'Go -> Next';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert copyright symbol to &copy;', () => {
+			const input = '\u00A9 2024 Company';
+			const expected = '&copy; 2024 Company';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert registered trademark symbol to &reg;', () => {
+			const input = 'Product\u00AE';
+			const expected = 'Product&reg;';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert degree symbol to &deg;', () => {
+			const input = '25\u00B0C';
+			const expected = '25&deg;C';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert plus-minus sign to &plusmn;', () => {
+			const input = '5 \u00B1 0.1';
+			const expected = '5 &plusmn; 0.1';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert trademark symbol to &trade;', () => {
+			const input = 'Brand\u2122';
+			const expected = 'Brand&trade;';
 			strictEqual(stupefyText(input), expected);
 		});
 

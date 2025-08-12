@@ -8,7 +8,15 @@ const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
 	['\u201C', '"'],         // left double quote to straight quote
 	['\u201D', '"'],         // right double quote to straight quote
 	['\u2026', '...'],       // ellipsis to three dots
+	['\u00AB', '<<'],        // left-pointing double angle quotation mark to <<
+	['\u00BB', '>>'],        // right-pointing double angle quotation mark to >>
+	['\u2190', '<-'],        // left arrow to ASCII arrow
 	['\u2192', '->'],        // right arrow to ASCII arrow
+	['\u00A9', '&copy;'],    // copyright symbol to &copy;
+	['\u00AE', '&reg;'],     // registered trademark symbol to &reg;
+	['\u00B0', '&deg;'],     // degree symbol to &deg;
+	['\u00B1', '&plusmn;'],  // plus-minus sign to &plusmn;
+	['\u2122', '&trade;'],   // trademark symbol to &trade;
 ]);
 
 export function stupefyText(text: string): string {
