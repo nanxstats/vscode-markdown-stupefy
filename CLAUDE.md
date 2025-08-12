@@ -81,7 +81,7 @@ npm run watch-tests
 1. Press F5 in VS Code to launch Extension Development Host
 2. Open any text file with smart typography
 3. Open Command Palette (Cmd+Shift+P / Ctrl+Shift+P)
-4. Run "Stupefy: Convert Smart Typography to ASCII"
+4. Run "Stupefy: Convert Smart Punctuation to ASCII"
 5. Verify all smart characters are converted
 
 ### Adding new character replacements
@@ -117,7 +117,7 @@ npm run watch-tests
 ## Key commands
 
 - **Command ID**: `markdown-stupefy.stupefy`
-- **Command Title**: "Stupefy: Convert Smart Typography to ASCII"
+- **Command Title**: "Stupefy: Convert Smart Punctuation to ASCII"
 - **Activation**: On first command execution
 
 ## Best practices

@@ -16,7 +16,7 @@
     "commands": [
       {
         "command": "markdown-stupefy.stupefy",
-        "title": "Stupefy: Convert Smart Typography to ASCII"
+        "title": "Stupefy: Convert Smart Punctuation to ASCII"
       }
     ]
   },
