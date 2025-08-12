@@ -8,7 +8,6 @@ const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
 	['\u201C', '"'],         // left double quote to straight quote
 	['\u201D', '"'],         // right double quote to straight quote
 	['\u2026', '...'],       // ellipsis to three dots
-	['\u2022', '- '],        // bullet point to hyphen and space
 	['\u2192', '->'],        // right arrow to ASCII arrow
 ]);
 
