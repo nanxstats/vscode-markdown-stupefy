@@ -1,26 +1,56 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
+	['\u2013', '--'],        // en-dash to double hyphen
+	['\u2014', '---'],       // em-dash to triple hyphen
+	['\u2018', "'"],         // left single quote to straight quote
+	['\u2019', "'"],         // right single quote to straight quote
+	['\u201C', '"'],         // left double quote to straight quote
+	['\u201D', '"'],         // right double quote to straight quote
+	['\u2026', '...'],       // ellipsis to three dots
+	['\u2022', '- '],        // bullet point to hyphen and space
+	['\u2192', '->'],        // right arrow to ASCII arrow
+]);
+
+function stupefyText(text: string): string {
+	let result = text;
+	for (const [smart, ascii] of STUPEFY_REPLACEMENTS) {
+		result = result.replace(new RegExp(smart, 'g'), ascii);
+	}
+	return result;
+}
+
 export function activate(context: vscode.ExtensionContext) {
+	const disposable = vscode.commands.registerCommand('markdown-stupefy.stupefy', async () => {
+		const editor = vscode.window.activeTextEditor;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "markdown-stupefy" is now active!');
+		if (!editor) {
+			vscode.window.showErrorMessage('No active text editor found');
+			return;
+		}
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('markdown-stupefy.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Markdown Stupefy!');
+		const document = editor.document;
+		const fullRange = new vscode.Range(
+			document.positionAt(0),
+			document.positionAt(document.getText().length)
+		);
+
+		const originalText = document.getText();
+		const stupefiedText = stupefyText(originalText);
+
+		if (originalText === stupefiedText) {
+			vscode.window.showInformationMessage('No smart typography found to stupefy');
+			return;
+		}
+
+		await editor.edit(editBuilder => {
+			editBuilder.replace(fullRange, stupefiedText);
+		});
+
+		vscode.window.showInformationMessage('Text successfully stupefied!');
 	});
 
 	context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() { }

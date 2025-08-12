@@ -1,7 +1,7 @@
 {
   "name": "markdown-stupefy",
   "displayName": "Markdown Stupefy",
-  "description": "To be added",
+  "description": "Convert smart typography to ASCII equivalents",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.103.0"
@@ -15,8 +15,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "markdown-stupefy.helloWorld",
-        "title": "Hello World"
+        "command": "markdown-stupefy.stupefy",
+        "title": "Stupefy: Convert Smart Typography to ASCII"
       }
     ]
   },
