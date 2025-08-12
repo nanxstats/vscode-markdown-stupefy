@@ -1,10 +1,10 @@
-import * as path from 'path';
 import { runTests } from '@vscode/test-electron';
+import { resolve } from 'path';
 
 async function main() {
 	try {
-		const extensionDevelopmentPath = path.resolve(__dirname, '../../');
-		const extensionTestsPath = path.resolve(__dirname, './suite/index');
+		const extensionDevelopmentPath = resolve(__dirname, '../../');
+		const extensionTestsPath = resolve(__dirname, './suite/index');
 
 		await runTests({ extensionDevelopmentPath, extensionTestsPath });
 	} catch (err) {
