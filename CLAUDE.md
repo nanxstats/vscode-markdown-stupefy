@@ -48,6 +48,9 @@ defined in the `STUPEFY_REPLACEMENTS` map.
 ### Building
 
 ```bash
+# Install dependencies
+npm install
+
 # Type checking
 npm run check-types
 
