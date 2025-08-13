@@ -3,6 +3,7 @@
   "displayName": "Markdown Stupefy",
   "description": "Convert smart punctuation to ASCII",
   "version": "0.1.0",
+  "publisher": "nanxstats",
   "author": {
     "name": "Nan Xiao"
   },
