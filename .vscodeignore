@@ -6,6 +6,7 @@ src/**
 scripts/**
 .gitignore
 .yarnrc
+CLAUDE.md
 esbuild.js
 **/tsconfig.json
 **/eslint.config.mjs
