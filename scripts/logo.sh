@@ -31,7 +31,7 @@ pdfcrop --quiet logo.pdf logo.pdf
 
 # Convert PDF to PNG
 echo "Converting PDF to PNG..."
-magick -density 300 logo.pdf -background transparent -resize 512x512 -gravity center -extent 512x512 logo.png
+magick -density 300 logo.pdf -background transparent -resize 256x256 -gravity center -extent 256x256 logo.png
 
 # Optimize PNG
 echo "Optimizing PNG..."
