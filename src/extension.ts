@@ -46,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const stupefiedText = stupefyText(originalText);
 
 		if (originalText === stupefiedText) {
-			vscode.window.showInformationMessage('No smart typography found to stupefy');
+			vscode.window.showInformationMessage('No smart punctuation found to stupefy');
 			return;
 		}
 

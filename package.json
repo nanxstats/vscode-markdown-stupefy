@@ -1,7 +1,7 @@
 {
   "name": "markdown-stupefy",
   "displayName": "Markdown Stupefy",
-  "description": "Convert smart typography to ASCII equivalents",
+  "description": "Convert smart punctuation to ASCII",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.103.0"

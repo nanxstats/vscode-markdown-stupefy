@@ -2,9 +2,10 @@
 
 ## Project overview
 
-VS Code extension that implements "stupefy mode" - converting smart typography
-(curly quotes, em-dashes, etc.) back to ASCII equivalents. Based on the reverse
-transformation concept from John Gruber's original SmartyPants tool.
+VS Code extension that implements "stupefy mode" - converting Markdown
+smart punctuation (curly quotes, em-dashes, etc.) back to ASCII equivalents.
+Based on the reverse transformation concept from the original SmartyPants tool
+written by John Gruber.
 
 ## Architecture
 
@@ -82,7 +83,7 @@ npm run watch-tests
 #### Manual testing
 
 1. Press F5 in VS Code to launch Extension Development Host
-2. Open any text file with smart typography
+2. Open any text file with smart punctuation
 3. Open Command Palette (Cmd+Shift+P / Ctrl+Shift+P)
 4. Run "Stupefy: Convert Smart Punctuation to ASCII"
 5. Verify all smart characters are converted
