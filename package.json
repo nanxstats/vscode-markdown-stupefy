@@ -2,13 +2,35 @@
   "name": "markdown-stupefy",
   "displayName": "Markdown Stupefy",
   "description": "Convert smart punctuation to ASCII",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "author": {
+    "name": "Nan Xiao"
+  },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.103.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nanxstats/vscode-markdown-stupefy"
+  },
+  "bugs": {
+    "url": "https://github.com/nanxstats/vscode-markdown-stupefy/issues"
+  },
+  "qna": "https://github.com/nanxstats/vscode-markdown-stupefy/discussions",
   "icon": "assets/logo.png",
   "categories": [
+    "Programming Languages",
+    "Formatters",
     "Other"
+  ],
+  "keywords": [
+    "Markdown",
+    "R Markdown",
+    "Quarto",
+    "SmartyPants",
+    "pandoc",
+    "AI"
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
