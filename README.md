@@ -1,8 +1,17 @@
 # Markdown Stupefy
 
-Convert smart punctuation to ASCII.
+<!-- TBA: badges -->
 
-## Useful links
+Tired of manually fixing the em dashes and smart quotes in the Markdown
+copied from AI tools? This extension converts these smart punctuations
+to their ASCII equivalents so you don't have to.
 
-- Reduce the extension size and improve the startup time by [bundling your extension](https://code.visualstudio.com/api/working-with-extensions/bundling-extension).
-- [Publish your extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace.
+## Why the name?
+
+The extension name is based on the "stupefy mode" described in the
+[SmartyPants](https://daringfireball.net/projects/smartypants/)
+project by John Gruber.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
