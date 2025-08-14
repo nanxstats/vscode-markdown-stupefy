@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0
+
+### New features
+
+- Added a new command "Stupefy: Cleanup Trailing Whitespace and End of File"
+  to remove trailing whitespace and ensure a single newline at the
+  end of the file (#12).
+
 ## 0.2.1
 
 ### Bug fixes
