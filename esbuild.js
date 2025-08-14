@@ -1,6 +1,4 @@
 const esbuild = require("esbuild");
-const fs = require("fs");
-const path = require("path");
 
 const production = process.argv.includes('--production');
 const watch = process.argv.includes('--watch');
@@ -25,30 +23,6 @@ const esbuildProblemMatcherPlugin = {
 	},
 };
 
-/**
- * @type {import('esbuild').Plugin}
- */
-const copyEmojiDataPlugin = {
-	name: 'copy-emoji-data',
-
-	setup(build) {
-		build.onEnd(() => {
-			// Copy emoji-data.jsonl to dist/src/
-			const srcPath = path.join(__dirname, 'src', 'emoji-data.jsonl');
-			const distDir = path.join(__dirname, 'dist', 'src');
-			const distPath = path.join(distDir, 'emoji-data.jsonl');
-
-			// Create dist/src directory if it doesn't exist
-			if (!fs.existsSync(distDir)) {
-				fs.mkdirSync(distDir, { recursive: true });
-			}
-
-			// Copy the file
-			fs.copyFileSync(srcPath, distPath);
-		});
-	},
-};
-
 async function main() {
 	const ctx = await esbuild.context({
 		entryPoints: [
@@ -64,7 +38,6 @@ async function main() {
 		external: ['vscode'],
 		logLevel: 'silent',
 		plugins: [
-			copyEmojiDataPlugin,
 			/* add to the end of plugins array */
 			esbuildProblemMatcherPlugin,
 		],
