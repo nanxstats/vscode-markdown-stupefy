@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "engines": {
-    "vscode": "^1.13.0"
+    "vscode": "^1.78.0"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,10 @@
       {
         "command": "markdown-stupefy.stupefy",
         "title": "Stupefy: Convert Smart Punctuation to ASCII"
+      },
+      {
+        "command": "markdown-stupefy.removeEmoji",
+        "title": "Stupefy: Remove Emoji Characters"
       }
     ]
   },
@@ -60,7 +64,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "@types/vscode": "^1.102.0",
+    "@types/vscode": "^1.78.0",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "@vscode/test-cli": "^0.0.11",
