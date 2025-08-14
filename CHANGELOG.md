@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0
+
+### New features
+
+- Added new command "Stupefy: Remove Emoji Characters" to remove all emojis
+  from the current document (#7).
+
+### Improvements
+
+- Lowered the minimum required VS Code version to 1.78.0 (April 2023)
+  to support more users (#6, #7).
+
 ## 0.1.0
 
 ### New features
