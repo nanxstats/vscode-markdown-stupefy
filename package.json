@@ -2,7 +2,7 @@
   "name": "markdown-stupefy",
   "displayName": "Markdown Stupefy",
   "description": "Convert smart punctuation to ASCII and remove all emojis from Markdown",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "publisher": "nanxstats",
   "author": {
     "name": "Nan Xiao"
