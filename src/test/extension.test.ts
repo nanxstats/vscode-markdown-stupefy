@@ -4,12 +4,10 @@ import * as vscode from 'vscode';
 import { activate, removeEmoji, stupefyText } from '../extension';
 
 suite('Extension Test Suite', () => {
-	let mockContext: vscode.ExtensionContext;
-
 	// Initialize emoji data for tests
 	suiteSetup(() => {
 		// Create a mock context with the extension path
-		mockContext = {
+		const mockContext = {
 			subscriptions: [],
 			extensionPath: join(__dirname, '..', '..')
 		} as unknown as vscode.ExtensionContext;
@@ -165,122 +163,122 @@ suite('Extension Test Suite', () => {
 		test('should remove basic emoji faces', () => {
 			const input = 'Hello 😀 World 😊!';
 			const expected = 'Hello  World !';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should remove various emoji categories', () => {
 			const input = '⌚ Watch ⌨ Keyboard 🎅 Santa 🏂 Snowboard';
 			const expected = ' Watch  Keyboard  Santa  Snowboard';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should preserve ASCII characters like # and *', () => {
 			const input = '# Heading * List item ** Bold **';
 			const expected = '# Heading * List item ** Bold **';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should preserve digits 0-9', () => {
 			const input = '0123456789';
 			const expected = '0123456789';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should remove emoji but keep regular punctuation', () => {
 			const input = 'Hello! 👋 How are you? 🤔 I am fine. 😊';
 			const expected = 'Hello!  How are you?  I am fine. ';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should handle text with no emoji', () => {
 			const input = 'This is plain ASCII text with no emoji!';
 			const expected = 'This is plain ASCII text with no emoji!';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should handle empty string', () => {
-			strictEqual(removeEmoji('', mockContext), '');
+			strictEqual(removeEmoji(''), '');
 		});
 
 		test('should remove emoji at string boundaries', () => {
 			const input = '😀Start and End😀';
 			const expected = 'Start and End';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should remove consecutive emoji', () => {
 			const input = 'Multiple 😀😊😎 emoji';
 			const expected = 'Multiple  emoji';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should remove emoji from multiline text', () => {
 			const input = 'Line 1 😀\nLine 2 🎉\nLine 3 ✨';
 			const expected = 'Line 1 \nLine 2 \nLine 3 ';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should remove emoji flags', () => {
 			const input = 'USA 🇺🇸 France 🇫🇷 Japan 🇯🇵';
 			const expected = 'USA  France  Japan ';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should preserve copyright and trademark symbols when used as HTML entities', () => {
 			// These are not emoji when written as &copy; etc
 			const input = '&copy; 2024 &reg; &trade;';
 			const expected = '&copy; 2024 &reg; &trade;';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should remove heart and symbol emoji', () => {
 			// Note: ❤️ includes a variation selector which may not be fully removed
 			const input = 'I ❤ coding! ✅ Done ❌ Not done';
 			const expected = 'I  coding!  Done  Not done';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should handle mixed content with code blocks', () => {
 			const input = '```\ncode here\n```\n😊 Text with emoji';
 			const expected = '```\ncode here\n```\n Text with emoji';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should remove animal emoji', () => {
 			const input = '🐶 Dog 🐱 Cat 🦁 Lion';
 			const expected = ' Dog  Cat  Lion';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should remove food emoji', () => {
 			const input = '🍕 Pizza 🍔 Burger 🍎 Apple';
 			const expected = ' Pizza  Burger  Apple';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should handle surrogate pairs correctly', () => {
 			// Note: Family emoji with ZWJ sequences may leave some joiners
 			const input = 'Complex emoji: 👨👩👧👦 family';
 			const expected = 'Complex emoji:  family';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should preserve markdown formatting', () => {
 			const input = '**Bold** 😊 *Italic* 🎉 `code`';
 			const expected = '**Bold**  *Italic*  `code`';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should preserve URLs', () => {
 			const input = 'Visit https://example.com 😊 for more';
 			const expected = 'Visit https://example.com  for more';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 
 		test('should handle text with both smart punctuation and emoji', () => {
 			const input = '"Hello" — she said 😊';
 			const expected = '"Hello" — she said ';
-			strictEqual(removeEmoji(input, mockContext), expected);
+			strictEqual(removeEmoji(input), expected);
 		});
 	});
 
