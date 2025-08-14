@@ -1,4 +1,4 @@
-{"_metadata":{"version":"2025-08-14T03:26:10.570Z","source":"https://www.unicode.org/Public/UCD/latest/ucd/emoji/emoji-data.txt"}}
+{"_metadata":{"version":"2025-08-14T05:30:15.776Z","source":"https://www.unicode.org/Public/UCD/latest/ucd/emoji/emoji-data.txt"}}
 {"range":["U+231A","U+231B"],"decimal":[8986,8987],"sample":"⌚⌛"}
 {"code":"U+2328","decimal":9000,"char":"⌨"}
 {"code":"U+23CF","decimal":9167,"char":"⏏"}
