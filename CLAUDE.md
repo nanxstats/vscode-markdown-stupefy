@@ -16,9 +16,10 @@ written by John Gruber.
   - `STUPEFY_REPLACEMENTS`: Map of Unicode to ASCII character mappings
   - `stupefyText()`: Core transformation function for smart punctuation
   - `removeEmoji()`: Function to remove emoji characters from text
+  - `cleanupWhitespace()`: Function to clean up trailing whitespace and ensure single newline at EOF
   - `loadEmojiData()`: Loads emoji codepoints from JSONL data file
   - `activate()`: Extension activation and command registration
-  - Command handlers for stupefy and emoji removal operations
+  - Command handlers for stupefy, emoji removal, and whitespace cleanup operations
 - `assets/emoji-data.jsonl`: Human-readable database of emoji codepoints from Unicode standard
 - `scripts/`: Build scripts for updating emoji data:
   - `update_emoji_data.sh`: Downloads latest Unicode emoji data
@@ -40,6 +41,15 @@ The emoji removal feature removes emoji characters while preserving:
 
 Emoji data is sourced from the Unicode Technical Report and filtered to exclude
 characters that are primarily used as text (arrows, copyright symbols, etc.).
+
+### Whitespace cleanup
+
+The whitespace cleanup feature:
+
+- Removes trailing whitespace from the end of each line
+- Ensures exactly one newline character at the end of the file
+- Preserves line endings within the document
+- Helps maintain clean, consistent formatting
 
 ## Coding standards
 
@@ -102,11 +112,12 @@ npm run watch-tests
 #### Manual testing
 
 1. Press F5 in VS Code to launch Extension Development Host
-2. Open any text file with smart punctuation and/or emoji
+2. Open any text file with smart punctuation, emoji, or trailing whitespace
 3. Open Command Palette (Cmd+Shift+P / Ctrl+Shift+P)
 4. Run "Stupefy: Convert Smart Punctuation to ASCII" to convert smart quotes
 5. Run "Stupefy: Remove Emoji Characters" to remove emoji
-6. Verify conversions work correctly and preserve important text
+6. Run "Stupefy: Clean Up Whitespace" to clean trailing spaces and normalize EOF
+7. Verify conversions work correctly and preserve important text
 
 ### Adding new character replacements
 
@@ -159,6 +170,8 @@ npm run watch-tests
 - **Command Title**: "Stupefy: Convert Smart Punctuation to ASCII"
 - **Command ID**: `markdown-stupefy.removeEmoji`
 - **Command Title**: "Stupefy: Remove Emoji Characters"
+- **Command ID**: `markdown-stupefy.cleanupWhitespace`
+- **Command Title**: "Stupefy: Clean Up Whitespace"
 - **Activation**: On first command execution
 
 ## Best practices
@@ -171,6 +184,8 @@ npm run watch-tests
 6. When updating emoji data, verify that ASCII characters are not incorrectly classified as emoji
 7. Test emoji removal with complex emoji sequences (flags, family emoji, etc.)
 8. Ensure the JSONL format remains human-readable for debugging
+9. Test whitespace cleanup to ensure it preserves document structure
+10. Verify EOF normalization works correctly across different file types
 
 ## Future enhancements (if needed)
 
