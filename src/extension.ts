@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import * as vscode from 'vscode';
 
 const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
@@ -27,7 +29,80 @@ export function stupefyText(text: string): string {
 	return result;
 }
 
+let emojiRanges: Array<number | [number, number]> = [];
+
+function loadEmojiData(context: vscode.ExtensionContext): void {
+	const emojiDataPath = join(context.extensionPath, 'src', 'emoji-data.jsonl');
+	const data = readFileSync(emojiDataPath, 'utf8');
+	const lines = data.trim().split('\n');
+
+	emojiRanges = [];
+
+	for (const line of lines) {
+		if (!line.trim()) {
+			continue;
+		}
+
+		try {
+			const entry = JSON.parse(line);
+
+			// Skip metadata line
+			if (entry._metadata) {
+				continue;
+			}
+
+			if (entry.range) {
+				// Range entry
+				emojiRanges.push(entry.decimal);
+			} else if (entry.code) {
+				// Single codepoint entry
+				emojiRanges.push(entry.decimal);
+			}
+		} catch (e) {
+			// Skip malformed lines
+			continue;
+		}
+	}
+}
+
+export function removeEmoji(text: string): string {
+	let result = '';
+	const codepoints = Array.from(text);
+
+	for (const char of codepoints) {
+		const code = char.codePointAt(0);
+		if (code === undefined) {
+			result += char;
+			continue;
+		}
+
+		let isEmoji = false;
+		for (const range of emojiRanges) {
+			if (Array.isArray(range)) {
+				if (code >= range[0] && code <= range[1]) {
+					isEmoji = true;
+					break;
+				}
+			} else {
+				if (code === range) {
+					isEmoji = true;
+					break;
+				}
+			}
+		}
+
+		if (!isEmoji) {
+			result += char;
+		}
+	}
+
+	return result;
+}
+
 export function activate(context: vscode.ExtensionContext) {
+	// Load emoji data on activation
+	loadEmojiData(context);
+
 	const disposable = vscode.commands.registerCommand('markdown-stupefy.stupefy', async () => {
 		const editor = vscode.window.activeTextEditor;
 
@@ -58,6 +133,37 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(disposable);
+
+	const removeEmojiDisposable = vscode.commands.registerCommand('markdown-stupefy.removeEmoji', async () => {
+		const editor = vscode.window.activeTextEditor;
+
+		if (!editor) {
+			vscode.window.showErrorMessage('No active text editor found');
+			return;
+		}
+
+		const document = editor.document;
+		const fullRange = new vscode.Range(
+			document.positionAt(0),
+			document.positionAt(document.getText().length)
+		);
+
+		const originalText = document.getText();
+		const cleanedText = removeEmoji(originalText);
+
+		if (originalText === cleanedText) {
+			vscode.window.showInformationMessage('No emoji characters found to remove');
+			return;
+		}
+
+		await editor.edit(editBuilder => {
+			editBuilder.replace(fullRange, cleanedText);
+		});
+
+		vscode.window.showInformationMessage('Emoji characters successfully removed!');
+	});
+
+	context.subscriptions.push(removeEmojiDisposable);
 }
 
 export function deactivate() { }
