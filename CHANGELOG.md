@@ -5,7 +5,7 @@
 ### Bug fixes
 
 - Fixed an issue where the incorrect emoji data path prevents all commands
-  from working in the published extension (#8).
+  from working in the published extension (#9).
 
 ## 0.2.0
 

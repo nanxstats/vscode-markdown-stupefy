@@ -19,7 +19,7 @@ written by John Gruber.
   - `loadEmojiData()`: Loads emoji codepoints from JSONL data file
   - `activate()`: Extension activation and command registration
   - Command handlers for stupefy and emoji removal operations
-- `src/emoji-data.jsonl`: Human-readable database of emoji codepoints from Unicode standard
+- `assets/emoji-data.jsonl`: Human-readable database of emoji codepoints from Unicode standard
 - `scripts/`: Build scripts for updating emoji data:
   - `update_emoji_data.sh`: Downloads latest Unicode emoji data
   - `parse-emoji-data.js`: Parses and filters emoji data into JSONL format
@@ -124,7 +124,7 @@ npm run watch-tests
    sh scripts/update_emoji_data.sh
    ```
 2. The script downloads and parses the latest emoji data from unicode.org
-3. Review the generated `src/emoji-data.jsonl` for accuracy
+3. Review the generated `assets/emoji-data.jsonl` for accuracy
 4. Rebuild the extension to include updated data
 
 ## File structure
@@ -133,7 +133,6 @@ npm run watch-tests
 /
 ├── src/
 │   ├── extension.ts           # Main extension code
-│   ├── emoji-data.jsonl       # Emoji codepoint database (human-readable)
 │   └── test/
 │       ├── extension.test.ts  # Unit and integration tests
 │       ├── runTest.ts         # Test runner entry point
@@ -142,10 +141,10 @@ npm run watch-tests
 ├── scripts/
 │   ├── update_emoji_data.sh   # Downloads latest Unicode emoji data
 │   └── parse-emoji-data.js    # Parses emoji data into JSONL format
+├── assets/
+│   ├── emoji-data.jsonl       # Emoji codepoint database (human-readable)
 ├── dist/
 │   ├── extension.js           # Bundled output
-│   └── src/
-│       └── emoji-data.jsonl   # Copied emoji data for runtime access
 ├── out/                       # Compiled test files (generated)
 ├── package.json               # Extension manifest and dependencies
 ├── tsconfig.json              # TypeScript configuration
