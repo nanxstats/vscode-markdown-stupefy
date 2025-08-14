@@ -29,10 +29,14 @@ export function stupefyText(text: string): string {
 	return result;
 }
 
-let emojiRanges: Array<number | [number, number]> = [];
+let emojiRanges: Array<number | [number, number]> | null = null;
 
 function loadEmojiData(context: vscode.ExtensionContext): void {
-	const emojiDataPath = join(context.extensionPath, 'src', 'emoji-data.jsonl');
+	if (emojiRanges !== null) {
+		return; // Already loaded
+	}
+
+	const emojiDataPath = join(context.extensionPath, 'dist', 'src', 'emoji-data.jsonl');
 	const data = readFileSync(emojiDataPath, 'utf8');
 	const lines = data.trim().split('\n');
 
@@ -65,7 +69,12 @@ function loadEmojiData(context: vscode.ExtensionContext): void {
 	}
 }
 
-export function removeEmoji(text: string): string {
+export function removeEmoji(text: string, context: vscode.ExtensionContext): string {
+	// Lazy load emoji data only when needed
+	if (emojiRanges === null) {
+		loadEmojiData(context);
+	}
+
 	let result = '';
 	const codepoints = Array.from(text);
 
@@ -77,7 +86,7 @@ export function removeEmoji(text: string): string {
 		}
 
 		let isEmoji = false;
-		for (const range of emojiRanges) {
+		for (const range of emojiRanges!) {
 			if (Array.isArray(range)) {
 				if (code >= range[0] && code <= range[1]) {
 					isEmoji = true;
@@ -100,8 +109,6 @@ export function removeEmoji(text: string): string {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-	// Load emoji data on activation
-	loadEmojiData(context);
 
 	const disposable = vscode.commands.registerCommand('markdown-stupefy.stupefy', async () => {
 		const editor = vscode.window.activeTextEditor;
@@ -149,18 +156,24 @@ export function activate(context: vscode.ExtensionContext) {
 		);
 
 		const originalText = document.getText();
-		const cleanedText = removeEmoji(originalText);
 
-		if (originalText === cleanedText) {
-			vscode.window.showInformationMessage('No emoji characters found to remove');
-			return;
+		try {
+			const cleanedText = removeEmoji(originalText, context);
+
+			if (originalText === cleanedText) {
+				vscode.window.showInformationMessage('No emoji characters found to remove');
+				return;
+			}
+
+			await editor.edit(editBuilder => {
+				editBuilder.replace(fullRange, cleanedText);
+			});
+
+			vscode.window.showInformationMessage('Emoji characters successfully removed!');
+		} catch (error) {
+			vscode.window.showErrorMessage('Failed to load emoji data. The emoji removal feature is not available.');
+			console.error('Emoji data loading error:', error);
 		}
-
-		await editor.edit(editBuilder => {
-			editBuilder.replace(fullRange, cleanedText);
-		});
-
-		vscode.window.showInformationMessage('Emoji characters successfully removed!');
 	});
 
 	context.subscriptions.push(removeEmojiDisposable);
