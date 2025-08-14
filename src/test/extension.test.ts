@@ -1,7 +1,7 @@
 import { ok, strictEqual } from 'assert';
 import { join } from 'path';
 import * as vscode from 'vscode';
-import { activate, removeEmoji, stupefyText } from '../extension';
+import { activate, cleanupWhitespace, removeEmoji, stupefyText } from '../extension';
 
 suite('Extension Test Suite', () => {
 	// Initialize emoji data for tests
@@ -282,6 +282,95 @@ suite('Extension Test Suite', () => {
 		});
 	});
 
+	suite('cleanupWhitespace function', () => {
+		test('should trim trailing spaces from single line', () => {
+			const input = 'Hello World   ';
+			const expected = 'Hello World\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should trim trailing tabs from single line', () => {
+			const input = 'Hello World\t\t';
+			const expected = 'Hello World\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should trim mixed trailing whitespace', () => {
+			const input = 'Hello World \t \t ';
+			const expected = 'Hello World\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should trim trailing whitespace from multiple lines', () => {
+			const input = 'Line 1   \nLine 2\t\t\nLine 3 \t ';
+			const expected = 'Line 1\nLine 2\nLine 3\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should preserve internal whitespace', () => {
+			const input = 'Hello   World\nTab\tSeparated\tValues';
+			const expected = 'Hello   World\nTab\tSeparated\tValues\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should add exactly one newline at end if missing', () => {
+			const input = 'No newline at end';
+			const expected = 'No newline at end\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should ensure only one newline at end when multiple exist', () => {
+			const input = 'Multiple newlines\n\n\n';
+			const expected = 'Multiple newlines\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should handle file already with one newline at end', () => {
+			const input = 'Already correct\n';
+			const expected = 'Already correct\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should handle empty file', () => {
+			const input = '';
+			const expected = '\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should handle file with only whitespace', () => {
+			const input = '   \t  \n  \t\n\n';
+			// All lines become empty after trimming, then we ensure one newline at end
+			const expected = '\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should handle lines with only whitespace', () => {
+			const input = 'Line 1\n   \t  \nLine 3';
+			const expected = 'Line 1\n\nLine 3\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should handle complex multiline text', () => {
+			const input = 'function test() {  \n\tconst x = 1;  \t\n\treturn x;\t\n}\n\n\n';
+			const expected = 'function test() {\n\tconst x = 1;\n\treturn x;\n}\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should handle Windows-style line endings', () => {
+			const input = 'Line 1  \r\nLine 2\t\r\nLine 3';
+			// Function normalizes to Unix line endings
+			const expected = 'Line 1\nLine 2\nLine 3\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+
+		test('should handle mixed line endings', () => {
+			const input = 'Unix line  \nWindows line  \r\nAnother Unix  ';
+			// Function normalizes to Unix line endings
+			const expected = 'Unix line\nWindows line\nAnother Unix\n';
+			strictEqual(cleanupWhitespace(input), expected);
+		});
+	});
+
 	suite('VS Code Command Integration', () => {
 		test('should register commands on activation', () => {
 			// Skip this test since it requires actual file system access
@@ -296,6 +385,11 @@ suite('Extension Test Suite', () => {
 		test('removeEmoji command should be registered with correct ID', async () => {
 			const commands = await vscode.commands.getCommands();
 			ok(commands.includes('markdown-stupefy.removeEmoji'));
+		});
+
+		test('cleanupWhitespace command should be registered with correct ID', async () => {
+			const commands = await vscode.commands.getCommands();
+			ok(commands.includes('markdown-stupefy.cleanupWhitespace'));
 		});
 	});
 });

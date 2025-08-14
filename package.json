@@ -44,6 +44,10 @@
       {
         "command": "markdown-stupefy.removeEmoji",
         "title": "Stupefy: Remove Emoji Characters"
+      },
+      {
+        "command": "markdown-stupefy.cleanupWhitespace",
+        "title": "Stupefy: Cleanup Trailing Whitespace and End of File"
       }
     ]
   },

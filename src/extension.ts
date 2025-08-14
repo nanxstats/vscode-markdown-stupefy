@@ -99,6 +99,22 @@ export function removeEmoji(text: string): string {
 	return result;
 }
 
+export function cleanupWhitespace(text: string): string {
+	// Split into lines, preserving the line ending type
+	const lines = text.split(/\r?\n/);
+
+	// Trim trailing whitespace from each line
+	const trimmedLines = lines.map(line => line.replace(/\s+$/, ''));
+
+	// Join lines back with newlines
+	let result = trimmedLines.join('\n');
+
+	// Ensure exactly one newline at the end
+	result = result.replace(/\n*$/, '\n');
+
+	return result;
+}
+
 export function activate(context: vscode.ExtensionContext) {
 	// Load emoji data on activation
 	loadEmojiData(context);
@@ -164,6 +180,37 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(removeEmojiDisposable);
+
+	const cleanupWhitespaceDisposable = vscode.commands.registerCommand('markdown-stupefy.cleanupWhitespace', async () => {
+		const editor = vscode.window.activeTextEditor;
+
+		if (!editor) {
+			vscode.window.showErrorMessage('No active text editor found');
+			return;
+		}
+
+		const document = editor.document;
+		const fullRange = new vscode.Range(
+			document.positionAt(0),
+			document.positionAt(document.getText().length)
+		);
+
+		const originalText = document.getText();
+		const cleanedText = cleanupWhitespace(originalText);
+
+		if (originalText === cleanedText) {
+			vscode.window.showInformationMessage('No whitespace changes needed');
+			return;
+		}
+
+		await editor.edit(editBuilder => {
+			editBuilder.replace(fullRange, cleanedText);
+		});
+
+		vscode.window.showInformationMessage('Whitespace successfully cleaned up!');
+	});
+
+	context.subscriptions.push(cleanupWhitespaceDisposable);
 }
 
 export function deactivate() { }
