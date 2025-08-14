@@ -3,7 +3,8 @@
 ## Project overview
 
 VS Code extension that implements "stupefy mode" - converting Markdown
-smart punctuation (curly quotes, em-dashes, etc.) back to ASCII equivalents.
+smart punctuation (curly quotes, em-dashes, etc.) back to ASCII equivalents,
+and removing emoji characters from text.
 Based on the reverse transformation concept from the original SmartyPants tool
 written by John Gruber.
 
@@ -13,14 +14,32 @@ written by John Gruber.
 
 - `extension.ts`: Main extension entry point containing:
   - `STUPEFY_REPLACEMENTS`: Map of Unicode to ASCII character mappings
-  - `stupefyText()`: Core transformation function
+  - `stupefyText()`: Core transformation function for smart punctuation
+  - `removeEmoji()`: Function to remove emoji characters from text
+  - `loadEmojiData()`: Loads emoji codepoints from JSONL data file
   - `activate()`: Extension activation and command registration
-  - Command handler for the stupefy operation
+  - Command handlers for stupefy and emoji removal operations
+- `src/emoji-data.jsonl`: Human-readable database of emoji codepoints from Unicode standard
+- `scripts/`: Build scripts for updating emoji data:
+  - `update_emoji_data.sh`: Downloads latest Unicode emoji data
+  - `parse-emoji-data.js`: Parses and filters emoji data into JSONL format
 
-### Character Replacements
+### Character replacements
 
-The extension replaces the Unicode characters with ASCII equivalents
+The extension replaces Unicode characters with ASCII equivalents
 defined in the `STUPEFY_REPLACEMENTS` map.
+
+### Emoji removal
+
+The emoji removal feature removes emoji characters while preserving:
+
+- ASCII characters (including `#`, `*`, digits 0-9)
+- Regular punctuation and symbols
+- Markdown formatting
+- URLs and code blocks
+
+Emoji data is sourced from the Unicode Technical Report and filtered to exclude
+characters that are primarily used as text (arrows, copyright symbols, etc.).
 
 ## Coding standards
 
@@ -83,10 +102,11 @@ npm run watch-tests
 #### Manual testing
 
 1. Press F5 in VS Code to launch Extension Development Host
-2. Open any text file with smart punctuation
+2. Open any text file with smart punctuation and/or emoji
 3. Open Command Palette (Cmd+Shift+P / Ctrl+Shift+P)
-4. Run "Stupefy: Convert Smart Punctuation to ASCII"
-5. Verify all smart characters are converted
+4. Run "Stupefy: Convert Smart Punctuation to ASCII" to convert smart quotes
+5. Run "Stupefy: Remove Emoji Characters" to remove emoji
+6. Verify conversions work correctly and preserve important text
 
 ### Adding new character replacements
 
@@ -97,23 +117,39 @@ npm run watch-tests
 2. Use Unicode escape sequences for special characters
 3. Test thoroughly with sample text
 
+### Updating emoji data
+
+1. Run the update script to get the latest Unicode data:
+   ```bash
+   sh scripts/update_emoji_data.sh
+   ```
+2. The script downloads and parses the latest emoji data from unicode.org
+3. Review the generated `src/emoji-data.jsonl` for accuracy
+4. Rebuild the extension to include updated data
+
 ## File structure
 
 ```
 /
 ├── src/
 │   ├── extension.ts           # Main extension code
+│   ├── emoji-data.jsonl       # Emoji codepoint database (human-readable)
 │   └── test/
 │       ├── extension.test.ts  # Unit and integration tests
 │       ├── runTest.ts         # Test runner entry point
 │       └── suite/
 │           └── index.ts       # Test suite configuration
+├── scripts/
+│   ├── update_emoji_data.sh   # Downloads latest Unicode emoji data
+│   └── parse-emoji-data.js    # Parses emoji data into JSONL format
 ├── dist/
-│   └── extension.js           # Bundled output
+│   ├── extension.js           # Bundled output
+│   └── src/
+│       └── emoji-data.jsonl   # Copied emoji data for runtime access
 ├── out/                       # Compiled test files (generated)
 ├── package.json               # Extension manifest and dependencies
 ├── tsconfig.json              # TypeScript configuration
-├── esbuild.js                 # Build configuration
+├── esbuild.js                 # Build configuration with emoji data copy plugin
 ├── eslint.config.mjs          # Linting configuration
 └── .vscode-test.mjs           # VS Code test configuration
 ```
@@ -122,6 +158,8 @@ npm run watch-tests
 
 - **Command ID**: `markdown-stupefy.stupefy`
 - **Command Title**: "Stupefy: Convert Smart Punctuation to ASCII"
+- **Command ID**: `markdown-stupefy.removeEmoji`
+- **Command Title**: "Stupefy: Remove Emoji Characters"
 - **Activation**: On first command execution
 
 ## Best practices
@@ -131,10 +169,13 @@ npm run watch-tests
 3. Ensure no unintended replacements in code blocks or URLs
 4. Keep replacement logic simple and predictable
 5. Follow KISS principle - avoid over-engineering
+6. When updating emoji data, verify that ASCII characters are not incorrectly classified as emoji
+7. Test emoji removal with complex emoji sequences (flags, family emoji, etc.)
+8. Ensure the JSONL format remains human-readable for debugging
 
 ## Future enhancements (if needed)
 
 - Configuration for custom replacement rules
-- Ability to stupefy selected text only
-- Preserve certain characters based on context
+- Ability to stupefy or remove emoji from selected text only
 - Undo-aware batch operations
+- Support for additional Unicode character categories
