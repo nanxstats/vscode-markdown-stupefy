@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1
+
+### Documentation
+
+- Added a demo GIF to the README to showcase the extension's functionality
+  and usage (#13).
+
 ## 0.3.0
 
 ### New features
