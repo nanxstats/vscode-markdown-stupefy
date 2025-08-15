@@ -3,6 +3,7 @@ import { join } from 'path';
 import * as vscode from 'vscode';
 
 const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
+	['\u2011', '-'],         // non-breaking hyphen to regular hyphen
 	['\u2013', '--'],        // en-dash to double hyphen
 	['\u2014', '---'],       // em-dash to triple hyphen
 	['\u2018', "'"],         // left single quote to straight quote

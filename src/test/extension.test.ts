@@ -16,6 +16,12 @@ suite('Extension Test Suite', () => {
 		activate(mockContext);
 	});
 	suite('stupefyText function', () => {
+		test('should convert non-breaking hyphen to regular hyphen', () => {
+			const input = 'non\u2011breaking hyphen';
+			const expected = 'non-breaking hyphen';
+			strictEqual(stupefyText(input), expected);
+		});
+
 		test('should convert en-dash to double hyphen', () => {
 			const input = 'Pages 10\u201320';
 			const expected = 'Pages 10--20';
@@ -115,6 +121,12 @@ suite('Extension Test Suite', () => {
 		test('should convert multiple smart characters in one string', () => {
 			const input = '\u201CIt\u2019s amazing\u201D\u2014she said\u2026';
 			const expected = '"It\'s amazing"---she said...';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should handle non-breaking hyphen with other smart punctuation', () => {
+			const input = '\u201Cnon\u2011breaking\u201D text\u2014here';
+			const expected = '"non-breaking" text---here';
 			strictEqual(stupefyText(input), expected);
 		});
 

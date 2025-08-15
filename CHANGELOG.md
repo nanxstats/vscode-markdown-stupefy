@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.2
+
+### Improvements
+
+- Convert non-breaking hyphens (U+2011) to regular hyphens in the
+  "Stupefy: Convert Smart Punctuation to ASCII" command (#14).
+
 ## 0.3.1
 
 ### Documentation
