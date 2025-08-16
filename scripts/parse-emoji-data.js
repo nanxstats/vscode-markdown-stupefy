@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
-const path = require('path');
 
 // Parse command line arguments
 const args = process.argv.slice(2);
 if (args.length !== 2) {
-	console.error('Usage: parse-emoji-data.js <input-file> <output-file>');
+	console.error('Usage: parse-emoji-data.js <input-file> <output-ts-file>');
 	process.exit(1);
 }
 
-const [inputFile, outputFile] = args;
+const [inputFile, outputTsFile] = args;
 
 // ASCII and common symbols that should NOT be treated as emoji
 // These can form emoji with variation selectors but are primarily text
@@ -41,7 +40,20 @@ function shouldExclude(code) {
 	return false;
 }
 
-function parseEmojiData(inputFile, outputFile) {
+// Helper function to get section name for better organization
+function getSectionName(codepoint) {
+	if (codepoint >= 0x1F300 && codepoint <= 0x1F5FF) return 'Symbols and Pictographs';
+	if (codepoint >= 0x1F600 && codepoint <= 0x1F64F) return 'Emoticons';
+	if (codepoint >= 0x1F680 && codepoint <= 0x1F6FF) return 'Transport and Map';
+	if (codepoint >= 0x1F900 && codepoint <= 0x1F9FF) return 'Supplemental Symbols';
+	if (codepoint >= 0x1FA70 && codepoint <= 0x1FAFF) return 'Symbols Extended';
+	if (codepoint >= 0x2600 && codepoint <= 0x26FF) return 'Miscellaneous Symbols';
+	if (codepoint >= 0x2700 && codepoint <= 0x27BF) return 'Dingbats';
+	if (codepoint >= 0xE0000) return 'Tags';
+	return null;
+}
+
+function parseEmojiData(inputFile, outputTsFile) {
 	// Read the input file
 	const data = fs.readFileSync(inputFile, 'utf8');
 	const lines = data.split('\n');
@@ -104,56 +116,67 @@ function parseEmojiData(inputFile, outputFile) {
 		return aVal - bVal;
 	});
 
-	// Generate JSONL format with human-readable entries
-	let jsonlContent = '';
+	// Generate TypeScript file with embedded emoji data
 	const sourceUrl = 'https://www.unicode.org/Public/UCD/latest/ucd/emoji/emoji-data.txt';
-	jsonlContent += JSON.stringify({
-		_metadata: {
-			version: new Date().toISOString(),
-			source: sourceUrl
-		}
-	}) + '\n';
+	let tsContent = '// Auto-generated emoji data for web compatibility\n';
+	tsContent += '// This file embeds emoji ranges directly to avoid file system dependencies\n';
+	tsContent += '// Generated from: ' + sourceUrl + '\n';
+	tsContent += '// Generated on: ' + new Date().toISOString() + '\n';
+	tsContent += '// Total emoji entries: ' + emojiRanges.length + '\n\n';
+	tsContent += '// Format: Each entry is either a single codepoint (number) or a range [start, end]\n';
+	tsContent += '// Human-readable comments show the Unicode hex codes and sample characters\n\n';
+	tsContent += 'export function getEmojiRanges(): Array<number | [number, number]> {\n';
+	tsContent += '\treturn [\n';
 
+	// Add human-readable comments for each entry
+	let currentSection = null;
 	for (const range of emojiRanges) {
 		if (Array.isArray(range)) {
 			// Range of codepoints
 			const [start, end] = range;
+			const newSection = getSectionName(start);
+			if (newSection && newSection !== currentSection) {
+				tsContent += `\n\t\t// === ${newSection} ===\n`;
+				currentSection = newSection;
+			}
+
 			const startHex = 'U+' + start.toString(16).toUpperCase().padStart(4, '0');
 			const endHex = 'U+' + end.toString(16).toUpperCase().padStart(4, '0');
 
-			// For ranges, show the range and sample characters
+			// Generate sample characters for the comment
 			const samples = [];
 			for (let i = start; i <= Math.min(start + 2, end); i++) {
 				samples.push(String.fromCodePoint(i));
 			}
 			if (end > start + 2) samples.push('...');
 
-			jsonlContent += JSON.stringify({
-				range: [startHex, endHex],
-				decimal: [start, end],
-				sample: samples.join('')
-			}) + '\n';
+			tsContent += `\t\t[${start}, ${end}], // ${startHex}..${endHex} ${samples.join('')}\n`;
 		} else {
 			// Single codepoint
+			const newSection = getSectionName(range);
+			if (newSection && newSection !== currentSection) {
+				tsContent += `\n\t\t// === ${newSection} ===\n`;
+				currentSection = newSection;
+			}
+
 			const hex = 'U+' + range.toString(16).toUpperCase().padStart(4, '0');
 			const char = String.fromCodePoint(range);
 
-			jsonlContent += JSON.stringify({
-				code: hex,
-				decimal: range,
-				char: char
-			}) + '\n';
+			tsContent += `\t\t${range}, // ${hex} ${char}\n`;
 		}
 	}
 
-	// Write the output file
-	fs.writeFileSync(outputFile, jsonlContent);
-	console.log(`Generated ${emojiRanges.length} emoji entries in JSONL format`);
+	tsContent += '\t];\n';
+	tsContent += '}\n';
+
+	// Write the TypeScript file
+	fs.writeFileSync(outputTsFile, tsContent);
+	console.log(`Generated TypeScript file with ${emojiRanges.length} emoji entries`);
 }
 
 // Main execution
 try {
-	parseEmojiData(inputFile, outputFile);
+	parseEmojiData(inputFile, outputTsFile);
 } catch (error) {
 	console.error('Error:', error.message);
 	process.exit(1);

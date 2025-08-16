@@ -1,18 +1,17 @@
 import { ok, strictEqual } from 'assert';
-import { join } from 'path';
 import * as vscode from 'vscode';
 import { activate, cleanupWhitespace, removeEmoji, stupefyText } from '../extension';
 
 suite('Extension Test Suite', () => {
-	// Initialize emoji data for tests
+	// Emoji data is embedded directly in the code, no initialization needed
 	suiteSetup(() => {
-		// Create a mock context with the extension path
+		// Create a mock context for activation
 		const mockContext = {
 			subscriptions: [],
-			extensionPath: join(__dirname, '..', '..')
+			extensionUri: vscode.Uri.parse('file:///test')
 		} as unknown as vscode.ExtensionContext;
 
-		// Activate the extension to load emoji data
+		// Activate the extension to register commands
 		activate(mockContext);
 	});
 	suite('stupefyText function', () => {
