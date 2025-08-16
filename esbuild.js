@@ -24,7 +24,8 @@ const esbuildProblemMatcherPlugin = {
 };
 
 async function main() {
-	const ctx = await esbuild.context({
+	// Build for Node.js (desktop VS Code)
+	const nodeCtx = await esbuild.context({
 		entryPoints: [
 			'src/extension.ts'
 		],
@@ -42,11 +43,41 @@ async function main() {
 			esbuildProblemMatcherPlugin,
 		],
 	});
+
+	// Build for browser (web VS Code)
+	const browserCtx = await esbuild.context({
+		entryPoints: [
+			'src/extension.ts'
+		],
+		bundle: true,
+		format: 'cjs',
+		minify: production,
+		sourcemap: !production,
+		sourcesContent: false,
+		platform: 'browser',
+		target: 'es2020',
+		outfile: 'dist/web/extension.js',
+		external: ['vscode'],
+		logLevel: 'silent',
+		plugins: [
+			esbuildProblemMatcherPlugin,
+		],
+	});
+
 	if (watch) {
-		await ctx.watch();
+		await Promise.all([
+			nodeCtx.watch(),
+			browserCtx.watch()
+		]);
 	} else {
-		await ctx.rebuild();
-		await ctx.dispose();
+		await Promise.all([
+			nodeCtx.rebuild(),
+			browserCtx.rebuild()
+		]);
+		await Promise.all([
+			nodeCtx.dispose(),
+			browserCtx.dispose()
+		]);
 	}
 }
 

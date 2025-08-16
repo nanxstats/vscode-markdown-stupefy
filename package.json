@@ -35,6 +35,7 @@
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
+  "browser": "./dist/web/extension.js",
   "contributes": {
     "commands": [
       {
