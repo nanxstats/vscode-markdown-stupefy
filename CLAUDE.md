@@ -17,13 +17,13 @@ written by John Gruber.
   - `stupefyText()`: Core transformation function for smart punctuation
   - `removeEmoji()`: Function to remove emoji characters from text
   - `cleanupWhitespace()`: Function to clean up trailing whitespace and ensure single newline at EOF
-  - `loadEmojiData()`: Loads emoji codepoints from JSONL data file
+  - Uses embedded emoji data from `emoji-data.ts` for web compatibility
   - `activate()`: Extension activation and command registration
   - Command handlers for stupefy, emoji removal, and whitespace cleanup operations
-- `assets/emoji-data.jsonl`: Human-readable database of emoji codepoints from Unicode standard
+- `emoji-data.ts`: Auto-generated TypeScript file with embedded emoji ranges (web-compatible)
 - `scripts/`: Build scripts for updating emoji data:
-  - `update_emoji_data.sh`: Downloads latest Unicode emoji data
-  - `parse-emoji-data.js`: Parses and filters emoji data into JSONL format
+  - `update_emoji_data.sh`: Downloads latest Unicode emoji data and generates TypeScript file
+  - `parse-emoji-data.js`: Parses Unicode data and generates TypeScript with human-readable comments
 
 ### Character replacements
 
@@ -41,6 +41,7 @@ The emoji removal feature removes emoji characters while preserving:
 
 Emoji data is sourced from the Unicode Technical Report and filtered to exclude
 characters that are primarily used as text (arrows, copyright symbols, etc.).
+The data is embedded directly in the TypeScript code for web compatibility.
 
 ### Whitespace cleanup
 
@@ -87,12 +88,16 @@ npm run check-types
 # Linting
 npm run lint
 
-# Build with esbuild
+# Build for both Node.js and browser targets
 node esbuild.js
 
 # Watch mode for development
 npm run watch
 ```
+
+The build process creates two outputs:
+- `dist/extension.js` - For desktop VS Code (Node.js)
+- `dist/web/extension.js` - For web VS Code (browser)
 
 ### Testing
 
@@ -135,8 +140,11 @@ npm run watch-tests
    sh scripts/update_emoji_data.sh
    ```
 2. The script downloads and parses the latest emoji data from unicode.org
-3. Review the generated `assets/emoji-data.jsonl` for accuracy
+3. Generates `src/emoji-data.ts` with embedded, human-readable emoji ranges
 4. Rebuild the extension to include updated data
+
+Note: The emoji data is embedded directly in TypeScript code for web compatibility,
+with comments showing Unicode hex codes and sample characters for debugging.
 
 ## File structure
 
@@ -144,6 +152,7 @@ npm run watch-tests
 /
 ├── src/
 │   ├── extension.ts           # Main extension code
+│   ├── emoji-data.ts          # Auto-generated emoji ranges (web-compatible)
 │   └── test/
 │       ├── extension.test.ts  # Unit and integration tests
 │       ├── runTest.ts         # Test runner entry point
@@ -151,15 +160,17 @@ npm run watch-tests
 │           └── index.ts       # Test suite configuration
 ├── scripts/
 │   ├── update_emoji_data.sh   # Downloads latest Unicode emoji data
-│   └── parse-emoji-data.js    # Parses emoji data into JSONL format
+│   └── parse-emoji-data.js    # Generates TypeScript emoji data file
 ├── assets/
-│   ├── emoji-data.jsonl       # Emoji codepoint database (human-readable)
+│   └── logo.png               # Extension icon
 ├── dist/
-│   ├── extension.js           # Bundled output
+│   ├── extension.js           # Bundled output for Node.js
+│   └── web/
+│       └── extension.js       # Bundled output for browser
 ├── out/                       # Compiled test files (generated)
-├── package.json               # Extension manifest and dependencies
+├── package.json               # Extension manifest with browser field
 ├── tsconfig.json              # TypeScript configuration
-├── esbuild.js                 # Build configuration with emoji data copy plugin
+├── esbuild.js                 # Build configuration for both targets
 ├── eslint.config.mjs          # Linting configuration
 └── .vscode-test.mjs           # VS Code test configuration
 ```
@@ -183,9 +194,27 @@ npm run watch-tests
 5. Follow KISS principle - avoid over-engineering
 6. When updating emoji data, verify that ASCII characters are not incorrectly classified as emoji
 7. Test emoji removal with complex emoji sequences (flags, family emoji, etc.)
-8. Ensure the JSONL format remains human-readable for debugging
+8. Ensure the generated TypeScript file has human-readable comments for debugging
 9. Test whitespace cleanup to ensure it preserves document structure
 10. Verify EOF normalization works correctly across different file types
+11. Test extension in both desktop VS Code and web environments (github.dev, vscode.dev)
+12. Avoid Node.js-specific APIs to maintain web compatibility
+
+## Web Extension Compatibility
+
+The extension is fully compatible with VS Code Web Extensions and can run in:
+
+- Desktop VS Code
+- github.dev
+- vscode.dev
+- Other web-based VS Code environments
+
+### Key design aspects for web compatibility
+
+- Emoji data embedded directly in TypeScript code (no file system access)
+- Dual build outputs for Node.js and browser targets
+- No Node.js dependencies (`fs`, `path`, etc.)
+- Uses VS Code's platform-agnostic APIs
 
 ## Future enhancements (if needed)
 
