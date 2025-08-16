@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0
+
+### New features
+
+- Added support for VS Code Web Extensions, enabling the extension to run in
+  browser-based environments like github.dev and vscode.dev (#15).
+  - Refactored extension architecture to embed emoji data directly in
+    TypeScript code for web compatibility, eliminating file system dependencies.
+  - Updated build pipeline to generate both Node.js and browser targets from a
+    single codebase.
+  - Converted emoji data from JSONL to TypeScript format with human-readable
+    comments showing Unicode hex codes and sample characters.
+
 ## 0.3.2
 
 ### Improvements
