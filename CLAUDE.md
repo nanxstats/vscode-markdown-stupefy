@@ -216,6 +216,33 @@ The extension is fully compatible with VS Code Web Extensions and can run in:
 - No Node.js dependencies (`fs`, `path`, etc.)
 - Uses VS Code's platform-agnostic APIs
 
+## Dependency management
+
+### Updating dependencies
+
+When updating dependencies in `package.json`:
+
+1. **Check for outdated packages**: Run `npm outdated` to see available updates
+2. **Update selectively**:
+   - Update all non-VS Code dependencies to their latest versions
+   - **IMPORTANT**: Keep VS Code-related dependencies at their current versions:
+     - `@types/vscode`: Keep at `^1.78.0`
+     - `engines.vscode`: Keep at `^1.78.0`
+   - This ensures compatibility with users on older VS Code versions
+3. **Update process**:
+   ```bash
+   # Check for outdated packages
+   npm outdated
+
+   # Update package.json with new versions (manually edit)
+   # Then install updated dependencies
+   npm install
+
+   # Verify everything works
+   npm run check-types
+   npm run lint
+   ```
+
 ## Future enhancements (if needed)
 
 - Configuration for custom replacement rules
