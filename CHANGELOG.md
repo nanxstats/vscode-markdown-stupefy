@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1
+
+### Maintenance
+
+- Updated development Node.js dependencies to the latest versions (#16).
+
 ## 0.4.0
 
 ### New features
