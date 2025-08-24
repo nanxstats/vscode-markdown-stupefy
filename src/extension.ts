@@ -14,6 +14,8 @@ const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
 	['\u00BB', '>>'],        // right-pointing double angle quotation mark to >>
 	['\u2190', '<-'],        // left arrow to ASCII arrow
 	['\u2192', '->'],        // right arrow to ASCII arrow
+	['\u2264', '<='],        // less-than or equal to to <=
+	['\u2265', '>='],        // greater-than or equal to to >=
 	['\u00A9', '&copy;'],    // copyright symbol to &copy;
 	['\u00AE', '&reg;'],     // registered trademark symbol to &reg;
 	['\u00B0', '&deg;'],     // degree symbol to &deg;
