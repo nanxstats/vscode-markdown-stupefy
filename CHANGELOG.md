@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.2
+
+### Improvements
+
+- Added support for converting less-than or equal to (`U+2264`) and
+  greater-than or equal to (`U+2265`) symbols to their ASCII equivalents
+  `<=` and `>=` in the stupefy command.
+
 ## 0.4.1
 
 ### Maintenance
