@@ -87,6 +87,18 @@ suite('Extension Test Suite', () => {
 			strictEqual(stupefyText(input), expected);
 		});
 
+		test('should convert less-than or equal to symbol to <=', () => {
+			const input = 'x \u2264 10';
+			const expected = 'x <= 10';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert greater-than or equal to symbol to >=', () => {
+			const input = 'y \u2265 5';
+			const expected = 'y >= 5';
+			strictEqual(stupefyText(input), expected);
+		});
+
 		test('should convert copyright symbol to &copy;', () => {
 			const input = '\u00A9 2024 Company';
 			const expected = '&copy; 2024 Company';
