@@ -55,7 +55,7 @@ async function main() {
 		sourcemap: !production,
 		sourcesContent: false,
 		platform: 'browser',
-		target: 'es2020',
+		target: 'es2022',
 		outfile: 'dist/web/extension.js',
 		external: ['vscode'],
 		logLevel: 'silent',
