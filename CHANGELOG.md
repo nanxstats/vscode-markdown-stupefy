@@ -4,8 +4,7 @@
 
 ### Maintenance
 
-- Updated TypeScript to ES2023 with NodeNext modules, raised web build target
-  to ES2022, and bumped dependency versions.
+- Update dependency versions (#25).
 - Replace `CLAUDE.md` with `AGENTS.md` (#22).
 
 ## 0.4.2
