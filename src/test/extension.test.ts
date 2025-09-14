@@ -33,6 +33,18 @@ suite('Extension Test Suite', () => {
 			strictEqual(stupefyText(input), expected);
 		});
 
+		test('should convert two-em dash to six hyphens', () => {
+			const input = 'Author \u2E3A Title';
+			const expected = 'Author ------ Title';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert three-em dash to nine hyphens', () => {
+			const input = 'Author \u2E3B. Title';
+			const expected = 'Author ---------. Title';
+			strictEqual(stupefyText(input), expected);
+		});
+
 		test('should convert left single quote to straight quote', () => {
 			const input = '\u2018Hello world';
 			const expected = '\'Hello world';
@@ -54,6 +66,12 @@ suite('Extension Test Suite', () => {
 		test('should convert right double quote to straight quote', () => {
 			const input = 'Hello world\u201D';
 			const expected = 'Hello world"';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert bullet to hyphen', () => {
+			const input = '\u2022 Item';
+			const expected = '- Item';
 			strictEqual(stupefyText(input), expected);
 		});
 

@@ -5,10 +5,13 @@ const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
 	['\u2011', '-'],         // non-breaking hyphen to regular hyphen
 	['\u2013', '--'],        // en-dash to double hyphen
 	['\u2014', '---'],       // em-dash to triple hyphen
+	['\u2E3A', '------'],    // two-em dash to six hyphens
+	['\u2E3B', '---------'], // three-em dash to nine hyphens
 	['\u2018', "'"],         // left single quote to straight quote
 	['\u2019', "'"],         // right single quote to straight quote
 	['\u201C', '"'],         // left double quote to straight quote
 	['\u201D', '"'],         // right double quote to straight quote
+	['\u2022', '-'],         // bullet to hyphen
 	['\u2026', '...'],       // ellipsis to three dots
 	['\u00AB', '<<'],        // left-pointing double angle quotation mark to <<
 	['\u00BB', '>>'],        // right-pointing double angle quotation mark to >>
