@@ -31,6 +31,7 @@ async function main() {
 		],
 		bundle: true,
 		format: 'cjs',
+		target: 'node16',
 		minify: production,
 		sourcemap: !production,
 		sourcesContent: false,
