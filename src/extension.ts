@@ -24,6 +24,7 @@ const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
 	['\u00B0', '&deg;'],     // degree symbol to &deg;
 	['\u00B1', '&plusmn;'],  // plus-minus sign to &plusmn;
 	['\u2122', '&trade;'],   // trademark symbol to &trade;
+	['\uFFFC', ''],          // object replacement character to empty string
 ]);
 
 export function stupefyText(text: string): string {

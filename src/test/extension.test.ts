@@ -147,6 +147,18 @@ suite('Extension Test Suite', () => {
 			strictEqual(stupefyText(input), expected);
 		});
 
+		test('should remove object replacement character (U+FFFC)', () => {
+			const input = 'See \uFFFC reference';
+			const expected = 'See  reference';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should remove multiple object replacement characters', () => {
+			const input = 'a\uFFFCb\uFFFCc';
+			const expected = 'abc';
+			strictEqual(stupefyText(input), expected);
+		});
+
 		test('should convert multiple smart characters in one string', () => {
 			const input = '\u201CIt\u2019s amazing\u201D\u2014she said\u2026';
 			const expected = '"It\'s amazing"---she said...';
