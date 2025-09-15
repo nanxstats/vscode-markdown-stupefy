@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0
+
+### Improvements
+
+- Added support for converting two-em dash (`U+2E3A`), three-em dash (`U+2E3B`),
+  and bullet (`U+2022`) to their ASCII equivalents (#26).
+  Remove the object replacement character (`U+FFFC`) (#28).
+
 ## 0.4.3
 
 ### Maintenance
