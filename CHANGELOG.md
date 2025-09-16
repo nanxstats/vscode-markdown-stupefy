@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.1
+
+### Maintenance
+
+- Added script `scripts/banner.sh` to generate the README banner image (#31).
+- Refined `@types/node` version range (replacing `16.x`) for consistency and
+  upgraded `@typescript-eslint/*` packages (#30).
+
 ## 0.5.0
 
 ### Improvements
