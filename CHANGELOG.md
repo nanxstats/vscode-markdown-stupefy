@@ -11,7 +11,7 @@
   - `@typescript-eslint/eslint-plugin` 8.44.1
   - `@typescript-eslint/parser` 8.44.1
 
-Also refreshed the VS Code type definitions to 1.104.0.
+Also refreshed the VS Code type definitions to 1.104.0 (#34).
 
 ## 0.5.1
 
