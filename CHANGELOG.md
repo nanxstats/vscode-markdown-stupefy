@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.5.3
+
+### Maintenance
+
+Updated development tooling dependencies to the latest compatible versions
+(#38), including:
+
+- `@typescript-eslint/eslint-plugin` 8.44.1 -> 8.46.1
+- `@typescript-eslint/parser` 8.44.1 -> 8.46.1
+- `@vscode/test-cli` 0.0.11 -> 0.0.12
+- `esbuild` 0.25.10 -> 0.25.11
+- `eslint` 9.36.0 -> 9.38.0
+- `typescript` 5.9.2 -> 5.9.3
+
+Also, refreshed VS Code type definitions to 1.105.0.
+
 ## 0.5.2
 
 ### Maintenance
