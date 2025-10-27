@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0
+
+### Maintenance
+
+Updated development dependencies to the latest compatible versions (#41), including:
+
+- `@typescript-eslint/eslint-plugin` 8.46.1 -> 8.46.2
+- `@typescript-eslint/parser` 8.46.1 -> 8.46.2
+
 ## 0.5.3
 
 ### Maintenance
