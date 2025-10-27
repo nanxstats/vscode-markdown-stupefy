@@ -13,6 +13,7 @@ const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
 	['\u201D', '"'],         // right double quote to straight quote
 	['\u2022', '-'],         // bullet to hyphen
 	['\u2026', '...'],       // ellipsis to three dots
+	['\u00A0', ' '],         // non-breaking space to regular space
 	['\u00AB', '<<'],        // left-pointing double angle quotation mark to <<
 	['\u00BB', '>>'],        // right-pointing double angle quotation mark to >>
 	['\u2190', '<-'],        // left arrow to ASCII arrow

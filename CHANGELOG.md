@@ -2,9 +2,13 @@
 
 ## 0.6.0
 
+### Improvements
+
+- Added support for converting non-breaking spaces (`U+00A0`) to regular spaces (#42).
+
 ### Maintenance
 
-Updated development dependencies to the latest compatible versions (#41), including:
+Updated development dependencies to the latest compatible versions (#41):
 
 - `@typescript-eslint/eslint-plugin` 8.46.1 -> 8.46.2
 - `@typescript-eslint/parser` 8.46.1 -> 8.46.2
