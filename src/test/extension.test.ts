@@ -81,6 +81,12 @@ suite('Extension Test Suite', () => {
 			strictEqual(stupefyText(input), expected);
 		});
 
+		test('should convert non-breaking space to regular space', () => {
+			const input = 'Hello\u00A0World';
+			const expected = 'Hello World';
+			strictEqual(stupefyText(input), expected);
+		});
+
 		test('should convert left-pointing double angle quotation mark to <<', () => {
 			const input = '\u00ABQuote\u00BB';
 			const expected = '<<Quote>>';
