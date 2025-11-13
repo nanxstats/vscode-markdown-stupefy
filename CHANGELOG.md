@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.0
+
+### Improvements
+
+- Added support for converting five arrow symbols (`U+2190` to `U+2194`)
+  to their corresponding HTML entities (`&larr;`, `&rarr;`, `&uarr;`,
+  `&darr;`, `&harr;`). Note that this changes from the previous behavior of
+  converting to ASCII left and right arrows (`<-`, `->`) (#45).
+
 ## 0.6.0
 
 ### Improvements
