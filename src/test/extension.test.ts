@@ -15,6 +15,12 @@ suite('Extension Test Suite', () => {
 		activate(mockContext);
 	});
 	suite('stupefyText function', () => {
+		test('should convert hyphen (U+2010) to regular hyphen', () => {
+			const input = 'co\u2010operate';
+			const expected = 'co-operate';
+			strictEqual(stupefyText(input), expected);
+		});
+
 		test('should convert non-breaking hyphen to regular hyphen', () => {
 			const input = 'non\u2011breaking hyphen';
 			const expected = 'non-breaking hyphen';
@@ -83,6 +89,12 @@ suite('Extension Test Suite', () => {
 
 		test('should convert non-breaking space to regular space', () => {
 			const input = 'Hello\u00A0World';
+			const expected = 'Hello World';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert narrow no-break space to regular space', () => {
+			const input = 'Hello\u202FWorld';
 			const expected = 'Hello World';
 			strictEqual(stupefyText(input), expected);
 		});
