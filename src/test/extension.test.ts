@@ -99,15 +99,33 @@ suite('Extension Test Suite', () => {
 			strictEqual(stupefyText(input), expected);
 		});
 
-		test('should convert left arrow to ASCII arrow', () => {
+		test('should convert left arrow to &larr;', () => {
 			const input = 'Previous \u2190 Back';
-			const expected = 'Previous <- Back';
+			const expected = 'Previous &larr; Back';
 			strictEqual(stupefyText(input), expected);
 		});
 
-		test('should convert right arrow to ASCII arrow', () => {
+		test('should convert right arrow to &rarr;', () => {
 			const input = 'Go \u2192 Next';
-			const expected = 'Go -> Next';
+			const expected = 'Go &rarr; Next';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert up arrow to &uarr;', () => {
+			const input = 'Move \u2191 Up';
+			const expected = 'Move &uarr; Up';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert down arrow to &darr;', () => {
+			const input = 'Move \u2193 Down';
+			const expected = 'Move &darr; Down';
+			strictEqual(stupefyText(input), expected);
+		});
+
+		test('should convert double headed arrow to &harr;', () => {
+			const input = 'Navigate \u2194 Anywhere';
+			const expected = 'Navigate &harr; Anywhere';
 			strictEqual(stupefyText(input), expected);
 		});
 

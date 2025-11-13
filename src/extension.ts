@@ -16,8 +16,11 @@ const STUPEFY_REPLACEMENTS: Map<string, string> = new Map([
 	['\u00A0', ' '],         // non-breaking space to regular space
 	['\u00AB', '<<'],        // left-pointing double angle quotation mark to <<
 	['\u00BB', '>>'],        // right-pointing double angle quotation mark to >>
-	['\u2190', '<-'],        // left arrow to ASCII arrow
-	['\u2192', '->'],        // right arrow to ASCII arrow
+	['\u2190', '&larr;'],    // left arrow to &larr;
+	['\u2192', '&rarr;'],    // right arrow to &rarr;
+	['\u2191', '&uarr;'],    // up arrow to &uarr;
+	['\u2193', '&darr;'],    // down arrow to &darr;
+	['\u2194', '&harr;'],    // double headed arrow to &harr;
 	['\u2264', '<='],        // less-than or equal to to <=
 	['\u2265', '>='],        // greater-than or equal to to >=
 	['\u00A9', '&copy;'],    // copyright symbol to &copy;
