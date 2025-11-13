@@ -9,7 +9,18 @@
   `&darr;`, `&harr;`). Note that this changes from the previous behavior
   of converting to ASCII left and right arrows (`<-`, `->`) (#45).
 - Added support for converting hyphen (`U+2010`) to regular hyphen `-` and
-  narrow no-break space (`U+202F`) to regular space.
+  narrow no-break space (`U+202F`) to regular space (#46).
+
+### Maintenance
+
+Updated development dependencies to the latest compatible versions (#48):
+
+- `@typescript-eslint/eslint-plugin` 8.46.2 -> 8.46.4
+- `@typescript-eslint/parser` 8.46.2 -> 8.46.4
+- `esbuild` 0.25.11 -> 0.27.0
+- `eslint` 9.38.0 -> 9.39.1
+
+Also, refreshed VS Code type definitions to 1.106.0.
 
 ## 0.6.0
 
