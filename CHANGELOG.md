@@ -6,8 +6,10 @@
 
 - Added support for converting five arrow symbols (`U+2190` to `U+2194`)
   to their corresponding HTML entities (`&larr;`, `&rarr;`, `&uarr;`,
-  `&darr;`, `&harr;`). Note that this changes from the previous behavior of
-  converting to ASCII left and right arrows (`<-`, `->`) (#45).
+  `&darr;`, `&harr;`). Note that this changes from the previous behavior
+  of converting to ASCII left and right arrows (`<-`, `->`) (#45).
+- Added support for converting hyphen (`U+2010`) to regular hyphen `-` and
+  narrow no-break space (`U+202F`) to regular space.
 
 ## 0.6.0
 
