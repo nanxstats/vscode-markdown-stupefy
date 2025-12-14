@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.1
+
+### Maintenance
+
+- Updated development dependencies, including `eslint`, `esbuild`, `glob`, and
+  `@typescript-eslint/*` (#50).
+- Removed `npm-run-all`; `npm run watch` now uses `scripts/watch.js` to run
+  `watch:esbuild` and `watch:tsc` concurrently with clean shutdown (#51).
+
 ## 0.7.0
 
 ### Improvements
