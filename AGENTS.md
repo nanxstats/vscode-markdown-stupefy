@@ -35,7 +35,7 @@
 - Type check: `npm run check-types`
 - Lint: `npm run lint`
 - Build (both targets): `node esbuild.js` (use `--production` via `npm run package` when needed)
-- Watch: `npm run watch`
+- Watch: `npm run watch` (runs `watch:esbuild` and `watch:tsc` together)
 - Tests: `npm run compile-tests` then `npm test` (or `npm run watch-tests`)
 
 Outputs:
