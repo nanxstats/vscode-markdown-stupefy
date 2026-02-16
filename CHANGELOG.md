@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.2
+
+### Maintenance
+
+- Updated development dependencies, including `esbuild`, `glob`, and
+  `@typescript-eslint/*` (#54).
+
 ## 0.7.1
 
 ### Maintenance
